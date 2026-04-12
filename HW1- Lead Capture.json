@@ -1,0 +1,189 @@
+{
+  "name": "HW1- Lead Capture",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "73cea5e4-4115-4ef0-bbf2-323997a37050",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "09ddac55-11ad-4ee8-ab87-32f37c0cb768",
+      "name": "Webhook",
+      "webhookId": "73cea5e4-4115-4ef0-bbf2-323997a37050"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    name: $json.name,\n    email: $json.email,\n    message: $json.message,\n    created_at: new Date().toISOString()\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "4e8fecd5-e401-4dff-a147-08d47c6702ed",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nFrOnhl9i9xK0uJ3vHRRvwBrwpEX1h6rBkpIYijD57Y",
+          "mode": "list",
+          "cachedResultName": "HW1 Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nFrOnhl9i9xK0uJ3vHRRvwBrwpEX1h6rBkpIYijD57Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sayfa1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nFrOnhl9i9xK0uJ3vHRRvwBrwpEX1h6rBkpIYijD57Y/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{$json.name}}",
+            "Email": "={{$json.email}}",
+            "Message": "={{$json.message}}",
+            "Date": "={{$json.created_at}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        0
+      ],
+      "id": "a252c3d5-1805-438a-a150-2e4e1d663be4",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "zrOegPjrmGi1QDrG",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    ...$json,\n    ai_summary: \"Customer inquiry: \" + $json.message\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "dec2abaa-debf-470b-ab0e-a699228b185b",
+      "name": "Code in JavaScript1"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "name": "Yaren",
+          "email": "yaren@test.com",
+          "message": "hello"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "82660bc9-34fb-4003-96fe-47c4646678cb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "078b1338f070eedc1f39d2c771fd1f7a3be16303e48af1f88c05044666ebe46c"
+  },
+  "id": "WjDLgGFqixjMAbJl",
+  "tags": []
+}
