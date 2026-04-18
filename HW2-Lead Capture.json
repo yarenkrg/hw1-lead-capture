@@ -1,0 +1,132 @@
+{
+  "name": "HW2-Lead Capture",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e8fd0cf1-094e-4264-a06b-8379de602aa2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d3834525-5048-4b8d-b9c7-2b7b0e7dd505",
+      "name": "Webhook",
+      "webhookId": "e8fd0cf1-094e-4264-a06b-8379de602aa2"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "17vGJE6rdxxadgvsB62-tCt2AT1xmG0ciMMS6YvObPSI",
+          "mode": "list",
+          "cachedResultName": "HW2 LEADS",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17vGJE6rdxxadgvsB62-tCt2AT1xmG0ciMMS6YvObPSI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sayfa1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17vGJE6rdxxadgvsB62-tCt2AT1xmG0ciMMS6YvObPSI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.name }}",
+            "Email": "={{ $json.email }}",
+            "Message": "={{ $json.message }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "28a74972-ac67-48ad-907b-1afc83cde3c9",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "zrOegPjrmGi1QDrG",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "name": "Yaren",
+          "email": "yaren@test.com",
+          "message": "hw2 test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ebab2034-8f46-492e-8bc6-0a9b52bb681e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "078b1338f070eedc1f39d2c771fd1f7a3be16303e48af1f88c05044666ebe46c"
+  },
+  "id": "D1aGAWsIrV5HBtVp",
+  "tags": []
+}
