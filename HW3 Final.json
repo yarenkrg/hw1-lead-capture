@@ -1,0 +1,118 @@
+{
+  "name": "HW3 Final",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "c5da49d9-85de-435f-8c5d-55bbfeb99ecd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2d9a19d2-b8b1-481c-9f01-91e888d7a975",
+      "name": "Webhook",
+      "webhookId": "c5da49d9-85de-435f-8c5d-55bbfeb99ecd"
+    },
+    {
+      "parameters": {
+        "jsCode": "const name = $input.item.json.name;\nconst email = $input.item.json.email;\nconst message = $input.item.json.message;\n\nlet status = \"Valid\";\n\n// boş alan kontrolü\nif (!name || !email || !message) {\n  status = \"Invalid\";\n}\n\n// email format kontrolü\nconst emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nif (!emailRegex.test(email)) {\n  status = \"Invalid\";\n}\n\nreturn [{\n  json: {\n    name,\n    email,\n    message,\n    status\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b9ce7ae1-5d55-4dc0-a6a8-4e94dea3210a",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "const name = $input.item.json.name;\nconst email = $input.item.json.email;\nconst message = $input.item.json.message;\nconst status = $input.item.json.status;\n\nlet intent = \"Support\";\nlet urgency = \"Low\";\n\nconst msg = message.toLowerCase();\n\n// intent belirleme\nif (msg.includes(\"buy\") || msg.includes(\"price\")) {\n  intent = \"Sales\";\n} else if (msg.includes(\"partner\")) {\n  intent = \"Partnership\";\n}\n\n// urgency belirleme\nif (msg.includes(\"urgent\") || msg.includes(\"asap\")) {\n  urgency = \"High\";\n} else if (msg.includes(\"soon\")) {\n  urgency = \"Medium\";\n}\n\nreturn [{\n  json: {\n    name,\n    email,\n    message,\n    status,\n    intent,\n    urgency\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "f178de83-e9e5-4007-b7ea-7d0a59307342",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = {\n  name: $input.item.json.name,\n  email: $input.item.json.email,\n  message: $input.item.json.message,\n  status: $input.item.json.status,\n  intent: $input.item.json.intent,\n  urgency: $input.item.json.urgency\n};\n\n// simulating Google Sheets insert\nconsole.log(\"Data to be inserted into Google Sheets:\", data);\n\nreturn [{\n  json: {\n    ...data,\n    note: \"This data would normally be stored in Google Sheets\"\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "be0f0b11-08e6-4e83-8191-f8358b0fb8a5",
+      "name": "Code in JavaScript2"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "name": "Yaren",
+          "email": "yaren@test.com",
+          "message": "I want to buy urgently"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d47c51f5-2d41-4b5c-9276-34a28f786ea1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bc057a4b8377bd67a247265aee317cbbf56b707ab6bd4c353b2955a0ab4f17ad"
+  },
+  "id": "0StCu6T1T0bOJwbl",
+  "tags": []
+}
